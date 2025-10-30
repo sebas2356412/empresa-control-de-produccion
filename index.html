@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Producción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            text-align: center;
+            margin-top: 40px;
+            color: black;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .resultado {
+            width: 70%;
+            margin: 30px auto;
+            padding: 20px;
+            border: 2px solid #2980b9;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #3498db;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: blue;
+            color: white;
+        }
+
+        .rendimiento {
+            font-weight: bold;
+            font-size: 1.2em;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .bajo {
+            color: red;
+        }
+
+        .aceptable {
+            color: orange;
+        }
+
+        .excelente {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Control de Producción</h1>
+
+    <script>
+        
+        let nombre = prompt("Ingrese el nombre del operario:");
+        let tipoCodigo = prompt("Ingrese el código del producto (A, B o C):").toUpperCase();
+
+        let costoUnitario;
+        let tipoProducto;
+
+        
+        switch (tipoCodigo) {
+            case "A":
+                costoUnitario = 5000;
+                tipoProducto = "Componente A";
+                break;
+            case "B":
+                costoUnitario = 7000;
+                tipoProducto = "Componente B";
+                break;
+            case "C":
+                costoUnitario = 10000;
+                tipoProducto = "Componente C";
+                break;
+            default:
+                document.write("<h2> Código de producto inválido.</h2>");
+                 alert("codigo invalido");
+        }
+
+       
+        let producciones = [];
+        let continuar = "si";
+        let dia = 1;
+
+        while (continuar.toLowerCase() === "si") {
+            let piezas = parseInt(prompt(`Ingrese la cantidad de piezas producidas en el día ${dia}:`));
+
+            if (isNaN(piezas) || piezas < 0) {
+                alert("Por favor, ingrese un número válido.");
+                continue;
+            }
+
+            producciones.push(piezas);
+            continuar = prompt("¿Desea registrar otro día? (si/no)");
+            dia++;
+        }
+
+       
+        let totalPiezas = 0;
+        for (let i = 0; i < producciones.length; i++) {
+            totalPiezas += producciones[i];
+        }
+
+        let rendimiento;
+        let claseRend;
+
+        if (totalPiezas < 50) {
+            rendimiento = "Bajo rendimiento";
+            claseRend = "bajo";
+        } else if (totalPiezas <= 100) {
+            rendimiento = "Rendimiento aceptable";
+            claseRend = "aceptable";
+        } else {
+            rendimiento = "Rendimiento excelente";
+            claseRend = "excelente";
+        }
+
+        
+        let costoTotal = totalPiezas * costoUnitario;
+
+        
+        document.write(`
+            <div class="resultado">
+                <h2>Resumen de Producción</h2>
+                <p><strong>Operario:</strong> ${nombre}</p>
+                <p><strong>Tipo de producto:</strong> ${tipoProducto}</p>
+                <p><strong>Costo unitario:</strong> $${costoUnitario.toLocaleString()}</p>
+
+                <h3>Producción por día</h3>
+                <table>
+                    <tr><th>Día</th><th>Piezas producidas</th></tr>
+        `);
+
+        for (let i = 0; i < producciones.length; i++) {
+            document.write(`<tr><td>${i + 1}</td><td>${producciones[i]}</td></tr>`);
+        }
+
+        document.write(`
+                </table>
+                <p><strong>Total de piezas producidas:</strong> ${totalPiezas}</p>
+                <p><strong>Costo total de producción:</strong> $${costoTotal.toLocaleString()}</p>
+                <p class="rendimiento ${claseRend}"><strong>${rendimiento}</strong></p>
+            </div>
+        `);
+    </script>
+
+</body>
+</html>
