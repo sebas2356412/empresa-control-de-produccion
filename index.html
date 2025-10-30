@@ -109,7 +109,9 @@
                 continue;
             }
 
-            producciones.push(piezas);
+            
+            producciones[i] = piezas; 
+            i++;
             continuar = prompt("¿Desea registrar otro día? (si/no)");
             dia++;
         }
@@ -164,4 +166,5 @@
     </script>
 
 </body>
+
 </html>
